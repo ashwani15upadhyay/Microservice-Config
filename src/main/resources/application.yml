@@ -1,0 +1,36 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ashwani15upadhyay/Microservice-Config
+          clone-on-start: true
+          # Uncomment and add username/password if the repository is private
+          # username: your-username
+          # password: your-password
+#  profiles:
+#    active: git # Use 'composite' if combining multiple backends (e.g., git + native)
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.config: DEBUG # Enable detailed logs for config server
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' # Expose all endpoints for easier debugging
