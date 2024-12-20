@@ -1,7 +1,6 @@
 package com.User_Service.User_Service.entities;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,29 +15,23 @@ public class User {
     private String email;
     private String about;
 
-    public List<Rating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
-    }
-
     @Transient
     private List<Rating> ratings = new ArrayList<>();
 
-
+    // Default Constructor
     public User() {
     }
 
-    public User(String userId, String name, String email, String about) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.about = about;
+    // Constructor for Builder
+    private User(UserBuilder builder) {
+        this.userId = builder.userId;
+        this.name = builder.name;
+        this.email = builder.email;
+        this.about = builder.about;
+        this.ratings = builder.ratings;
     }
 
-
+    // Getters and Setters
     public String getUserId() {
         return userId;
     }
@@ -46,7 +39,6 @@ public class User {
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
 
     public String getName() {
         return name;
@@ -56,7 +48,6 @@ public class User {
         this.name = name;
     }
 
-
     public String getEmail() {
         return email;
     }
@@ -65,12 +56,62 @@ public class User {
         this.email = email;
     }
 
-
     public String getAbout() {
         return about;
     }
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    // Static Inner Builder Class
+    public static class UserBuilder {
+        private String userId;
+        private String name;
+        private String email;
+        private String about;
+        private List<Rating> ratings = new ArrayList<>();
+
+        public UserBuilder userId(String userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public UserBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public UserBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder about(String about) {
+            this.about = about;
+            return this;
+        }
+
+        public UserBuilder ratings(List<Rating> ratings) {
+            this.ratings = ratings;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
+
+    // Static Method to Create Builder
+    public static UserBuilder builder() {
+        return new UserBuilder();
     }
 }
